@@ -191,4 +191,8 @@ function resetMese() {
   utentiVerificati = [];
   salvaDipendenti();
   alert("Reset effettuato con successo!");
+  window.addEventListener('load', () => {
+    const splash = document.getElementById('splash-screen');
+    if (splash) splash.style.display = 'none';
+  }); 
 }

@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
+  <meta name="theme-color" content="#e53935" />
   <title>Drink Aziendale</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
@@ -9,30 +10,41 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
 </head>
 <body>
-  <h1>Drink Aziendale</h1>
-
-  <div class="button-container">
-    <button onclick="showDipendente()">Sono un Dipendente</button>
-    <button onclick="showBar()">Accesso Bar</button>
-    <button onclick="showAdmin()">Amministrazione</button>
+  <div id="splash-screen">
+    <img src="icons/logo-animation.gif" alt="Caricamento..." />
+    <p>Caricamento in corso...</p>
   </div>
 
-  <div id="contenuto"></div>
+  <main id="main-content" class="fade-in hidden">
+    <h1>Drink Aziendale</h1>
+
+    <div class="button-container">
+      <button onclick="showDipendente()">Sono un Dipendente</button>
+      <button onclick="showBar()">Accesso Bar</button>
+      <button onclick="showAdmin()">Amministrazione</button>
+    </div>
+
+    <div id="contenuto"></div>
+  </main>
 
   <script src="script.js"></script>
-
   <script>
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash-screen');
+      const main = document.getElementById('main-content');
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.style.display = 'none';
+        main.classList.remove('hidden');
+        main.classList.add('visible');
+      }, 800);
+    });
+
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('service-worker.js').then(
-          registration => {
-            console.log('Service Worker registrato con successo:', registration);
-          },
-          error => {
-            console.log('Errore nel registrare il Service Worker:', error);
-          }
-        );
-      });
+      navigator.serviceWorker.register('service-worker.js').then(
+        registration => console.log('Service Worker registrato con successo:', registration),
+        error => console.log('Errore nel registrare il Service Worker:', error)
+      );
     }
   </script>
 </body>

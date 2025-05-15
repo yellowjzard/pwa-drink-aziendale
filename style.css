@@ -50,9 +50,11 @@ input[type="file"] {
   padding: 15px;
   border-radius: 10px;
   background-color: #f9f9f9;
-  width: 80%;
+  width: 90%;
+  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .card img {
@@ -74,6 +76,7 @@ input[type="file"] {
 .reset-btn:hover {
   background-color: #00695c;
 }
+
 /* Centra il contenitore della card del dipendente */
 #qrcode {
   display: flex;
@@ -87,8 +90,10 @@ input[type="file"] {
   margin: 0 auto;
   text-align: center;
 }
+
+/* Lista dipendenti */
 #listaDipendenti {
-  list-style-type: none; /* Rimuove i pallini */
+  list-style-type: none;
   padding: 0;
   text-align: center;
 }
@@ -96,8 +101,122 @@ input[type="file"] {
 #listaDipendenti li {
   margin-bottom: 10px;
 }
+
 .lista-scroll {
   max-height: 200px;
   overflow-y: auto;
   margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+/* Responsive: migliora layout su schermi piccoli */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+    width: 90%;
+  }
+
+  input[type="text"],
+  input[type="file"] {
+    width: 90%;
+  }
+
+  .card img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .lista-scroll {
+    max-height: 180px;
+  }
+}
+
+/* Responsive: migliora disposizione bottoni su desktop */
+@media (min-width: 600px) {
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .button-container button {
+    width: auto;
+    min-width: 150px;
+  }
+  #splash-screen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ffffff;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #splash-screen img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+  #splash-screen.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  /* Animazioni fade */
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+}
+#splash-screen.fade-out {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+/* Splash screen base */
+#splash-screen {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ffffff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#splash-screen img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  animation: bounce 1.5s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Animazione card */
+.card {
+  animation: slideUp 0.5s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
 }
