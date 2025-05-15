@@ -1,12 +1,23 @@
-let dipendenti = JSON.parse(localStorage.getItem("dipendenti")) || [
-  { nome: "Mario", cognome: "Rossi", id: "mario.rossi", haUsufruito: false },
-  { nome: "Luca", cognome: "Bianchi", id: "luca.bianchi", haUsufruito: false }
-];
+const URL_DIPENDENTI_ONLINE = "https://tuo-link.github.io/dipendenti.json"; // <-- Cambia con tuo link
 
+let dipendenti = JSON.parse(localStorage.getItem("dipendenti")) || [];
 let utentiVerificati = [];
 
 const passwordBar = "barSuper123";
 const passwordAdmin = "adminUltra456";
+
+async function caricaDipendentiOnline() {
+  try {
+    const response = await fetch(URL_DIPENDENTI_ONLINE);
+    if (response.ok) {
+      const json = await response.json();
+      dipendenti = json;
+      salvaDipendenti();
+    }
+  } catch (error) {
+    console.error("Errore nel caricare i dipendenti online:", error);
+  }
+}
 
 function salvaDipendenti() {
   localStorage.setItem("dipendenti", JSON.stringify(dipendenti));
@@ -14,13 +25,22 @@ function salvaDipendenti() {
 
 function showDipendente() {
   document.getElementById("contenuto").innerHTML = `
-    <h2>Accesso Dipendente</h2>
-    <input type="text" id="nome" placeholder="Nome"><br><br>
-    <input type="text" id="cognome" placeholder="Cognome"><br><br>
-    <button onclick="accediDipendente()">Mostra Card</button>
+    <div id="accessoDip">
+      <h2>Accesso Dipendente</h2>
+      <input type="text" id="nome" placeholder="Nome"><br><br>
+      <input type="text" id="cognome" placeholder="Cognome"><br><br>
+      <button onclick="accediDipendente()">Mostra Card</button>
+    </div>
     <div id="qrcode"></div>
     <input type="file" id="fotoInput" style="display:none" accept="image/*" onchange="salvaFotoProfilo(event)">
   `;
+
+  // Se esiste una card salvata, mostrarla automaticamente
+  const cardSalvata = localStorage.getItem("cardPersonale");
+  if (cardSalvata) {
+    document.getElementById("accessoDip").style.display = "none";
+    document.getElementById("qrcode").innerHTML = cardSalvata;
+  }
 }
 
 function accediDipendente() {
@@ -36,10 +56,8 @@ function accediDipendente() {
 
   if (trovato) {
     const id = trovato.id;
-
-    const fotoProfilo = localStorage.getItem("fotoProfilo") || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0Q3JlYXRpb24gVGltZQAwNC8yMy8yNGAKuCgAAAAYSURBVHic7cEBAQAAAMKg909tDjegAAAAAAAAAADwN5gAAeKMVyQAAAAASUVORK5CYII=";
-
-    qrDiv.innerHTML = `
+    const fotoProfilo = localStorage.getItem("fotoProfilo") || "data:image/png;base64,..."; // immagine placeholder
+    const cardHTML = `
       <div class="card">
         <img src="${fotoProfilo}" alt="Foto Profilo" class="card-img">
         <div class="card-info">
@@ -50,6 +68,9 @@ function accediDipendente() {
         </div>
       </div>
     `;
+    qrDiv.innerHTML = cardHTML;
+    localStorage.setItem("cardPersonale", cardHTML);
+    document.getElementById("accessoDip").style.display = "none";
   } else {
     qrDiv.innerHTML = "<p style='color:red'>Dipendente non trovato.</p>";
   }
@@ -59,9 +80,9 @@ function salvaFotoProfilo(event) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       localStorage.setItem("fotoProfilo", e.target.result);
-      accediDipendente();
+      accediDipendente(); // rigenera card con nuova foto
     };
     reader.readAsDataURL(file);
   }
@@ -75,7 +96,6 @@ function showBar() {
       <div id="reader" style="width: 300px; margin: auto;"></div>
       <div id="result" style="margin-top: 20px;"></div>
     `;
-
     const html5QrCode = new Html5Qrcode("reader");
 
     html5QrCode.start(
@@ -119,10 +139,10 @@ function showAdmin() {
       <input type="file" id="excelFile" accept=".xlsx" onchange="caricaDipendentiDaExcel(event)">
 
       <h3>Lista Dipendenti</h3>
-<div class="lista-scroll">
-  <ul id="listaDipendenti"></ul>
-</div>
-<button onclick="resetMese()">Reset Mese</button>
+      <div class="lista-scroll">
+        <ul id="listaDipendenti"></ul>
+      </div>
+      <button onclick="resetMese()">Reset Mese</button>
     `;
     aggiornaListaDipendenti();
   } else {
@@ -191,8 +211,12 @@ function resetMese() {
   utentiVerificati = [];
   salvaDipendenti();
   alert("Reset effettuato con successo!");
-  window.addEventListener('load', () => {
-    const splash = document.getElementById('splash-screen');
-    if (splash) splash.style.display = 'none';
-  }); 
 }
+
+// Caricamento iniziale da URL remoto se disponibile
+window.addEventListener("load", () => {
+  caricaDipendentiOnline().then(() => {
+    const splash = document.getElementById("splash-screen");
+    if (splash) splash.style.display = 'none';
+  });
+});
