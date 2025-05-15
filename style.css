@@ -1,3 +1,4 @@
+/* Base */
 body {
   font-family: Arial, sans-serif;
   background: #fff;
@@ -14,59 +15,33 @@ body {
 
 h1, h2, h3 {
   color: #e53935;
+  margin: 20px 0;
+}
+
+/* Bottoni */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  margin-top: 30px;
 }
 
 button {
   background-color: #e53935;
   color: white;
   border: none;
-  padding: 10px 15px;
-  margin: 10px auto;
+  padding: 12px 18px;
   font-size: 16px;
   cursor: pointer;
-  display: block;
   width: 80%;
+  max-width: 300px;
   border-radius: 8px;
   transition: background-color 0.3s;
 }
 
 button:hover {
   background-color: #c62828;
-}
-
-input[type="text"],
-input[type="file"] {
-  width: 80%;
-  padding: 8px;
-  margin: 5px auto;
-  display: block;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.card {
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-  width: 90%;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.card img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.hidden {
-  display: none;
 }
 
 .reset-btn {
@@ -77,14 +52,48 @@ input[type="file"] {
   background-color: #00695c;
 }
 
-/* Centra il contenitore della card del dipendente */
+/* Input */
+input[type="text"],
+input[type="file"] {
+  width: 90%;
+  padding: 10px;
+  margin: 10px auto;
+  display: block;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Card dipendente */
+.card {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  animation: slideUp 0.5s ease;
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* QR code */
 #qrcode {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-/* Centra la fotocamera e il risultato nella sezione Bar */
+/* Sezione Bar */
 #reader,
 #result {
   margin: 0 auto;
@@ -95,11 +104,21 @@ input[type="file"] {
 #listaDipendenti {
   list-style-type: none;
   padding: 0;
-  text-align: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #listaDipendenti li {
-  margin-bottom: 10px;
+  margin: 6px 0;
+  padding: 10px 15px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .lista-scroll {
@@ -109,7 +128,56 @@ input[type="file"] {
   padding: 0 10px;
 }
 
-/* Responsive: migliora layout su schermi piccoli */
+/* Splash screen */
+#splash-screen {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ffffff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#splash-screen img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  animation: bounce 1.5s infinite;
+}
+
+#splash-screen.fade-out {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+/* Animazioni */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Responsive: dispositivi piccoli */
 @media (max-width: 480px) {
   h1 {
     font-size: 1.5rem;
@@ -141,82 +209,17 @@ input[type="file"] {
   }
 }
 
-/* Responsive: migliora disposizione bottoni su desktop */
+/* Responsive: desktop layout */
 @media (min-width: 600px) {
   .button-container {
-    display: flex;
+    flex-direction: row;
     justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 20px;
   }
 
   .button-container button {
     width: auto;
     min-width: 150px;
   }
-  #splash-screen {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #ffffff;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #splash-screen img {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 20px;
-  }
-  #splash-screen.fade-out {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-  }
-  /* Animazioni fade */
-.fade-in {
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-.fade-in.visible {
-  opacity: 1;
-}
-#splash-screen.fade-out {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-}
-
-/* Splash screen base */
-#splash-screen {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ffffff;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-#splash-screen img {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 20px;
-  animation: bounce 1.5s infinite;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-/* Animazione card */
-.card {
-  animation: slideUp 0.5s ease;
-}
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
 }
