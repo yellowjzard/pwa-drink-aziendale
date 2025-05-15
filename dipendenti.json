@@ -1,0 +1,4 @@
+[
+    { "nome": "Mario", "cognome": "Rossi", "id": "mario.rossi", "haUsufruito": false },
+    { "nome": "Luisa", "cognome": "Verdi", "id": "luisa.verdi", "haUsufruito": false }
+  ]
