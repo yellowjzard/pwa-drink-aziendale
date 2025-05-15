@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1, h2, h3 {
+  color: #e53935;
+}
+
+button {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 10px auto;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  width: 80%;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #c62828;
+}
+
+input[type="text"],
+input[type="file"] {
+  width: 80%;
+  padding: 8px;
+  margin: 5px auto;
+  display: block;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.card {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.reset-btn {
+  background-color: #00897b;
+}
+
+.reset-btn:hover {
+  background-color: #00695c;
+}
+/* Centra il contenitore della card del dipendente */
+#qrcode {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Centra la fotocamera e il risultato nella sezione Bar */
+#reader,
+#result {
+  margin: 0 auto;
+  text-align: center;
+}
+#listaDipendenti {
+  list-style-type: none; /* Rimuove i pallini */
+  padding: 0;
+  text-align: center;
+}
+
+#listaDipendenti li {
+  margin-bottom: 10px;
+}
+.lista-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
